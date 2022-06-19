@@ -495,7 +495,7 @@ public class DownloadWorker extends Worker implements MethodChannel.MethodCallHa
      * Create a file using java.io API
      */
     private File createFileInAppSpecificDir(String filename, String savedDir) {
-        File newFile = new File(savedDir, filename);
+        File newFile = new getUniqueFileName(savedDir, filename);
         try {
             boolean rs = newFile.createNewFile();
             if (rs) {
@@ -508,6 +508,22 @@ public class DownloadWorker extends Worker implements MethodChannel.MethodCallHa
             logError("Create a file using java.io API failed ");
         }
         return null;
+    }
+
+    private File getUniqueFileName(String savedDir, String fileName) {
+        int num = 1;
+        String extension = getExtension(fileName);
+        String fileNameWithoutExtension = fileName.substring(0, fileName.lastIndexOf("."));
+        File file = new File(savedDir, fileName);
+        while (file.exists()) {
+            fileName = fileNameWithoutExtension + "(" + (num++) + ")" + extension;
+            file = new File(savedDir, fileName);
+        }
+        return file;
+    }
+
+    private String getExtension(String name) {
+        return name.substring(name.lastIndexOf("."));
     }
 
     /**
