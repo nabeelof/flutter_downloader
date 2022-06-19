@@ -495,7 +495,7 @@ public class DownloadWorker extends Worker implements MethodChannel.MethodCallHa
      * Create a file using java.io API
      */
     private File createFileInAppSpecificDir(String filename, String savedDir) {
-        File newFile = new getUniqueFileName(savedDir, filename);
+        File newFile = getUniqueFileName(savedDir, filename);
         try {
             boolean rs = newFile.createNewFile();
             if (rs) {
